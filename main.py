@@ -1,4 +1,5 @@
-import streamlit as st
+from Controller.ZooController import ZooController
 
-st.header("Hola mundo")
+zoo = ZooController()
+zoo.MostrarAnimales()
 
