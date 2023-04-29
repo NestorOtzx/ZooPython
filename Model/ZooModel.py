@@ -15,7 +15,7 @@ class ZooModel:
             self.controller.mostarHabitats(self.__habitats__)
         if pagina == "Configurar Habitats":
             self.controller.mostarConfHabitats(self.__habitats__)
-        if pagina == "Configuar alimentos":
+        if pagina == "Configurar alimentos":
             self.controller.mostarConfAlimentos()
 
     def agregarHabitat(self, tipo):

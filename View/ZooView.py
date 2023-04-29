@@ -11,48 +11,85 @@ class ZooView:
 
     def __init__(self, controller):
         self.controller = controller
+        self.configuracionDePagina()
         self.__desactivarLinksEnTitulos__()
 
-    def __desactivarLinksEnTitulos__(self):
-        st.markdown("""
-                                <style>
-                                .css-15zrgzn {display: none}
-                                .css-eczf16 {display: none}
-                                .css-jn99sy {display: none}
-                                </style>
-                                """, unsafe_allow_html=True)
+    def configuracionDePagina(self):
+        st.set_page_config(
+            page_title="Zoológico",
+            layout="wide",
+            menu_items={
+                "About": "https://github.com/NestorOtzx/ZooPython"
+            }
+        )
+
 
     def paginaPrincipal(self):
         with st.sidebar:
-            opcion = option_menu(menu_title="Panel de control", options=["Inicio", "Ver Habitats", "Configurar Habitats", "Editar Alimentos"],
+            opcion = option_menu(menu_title="Panel de control", options=["Inicio", "Ver Habitats", "Configurar Habitats", "Configurar alimentos"],
                                  icons=["border-all", "flower3", "gear", "egg-fill"], menu_icon="display")
         self.controller.seleccionarPagina(opcion)
 
     def inicio(self):
-        st.header("Inicio")
-        st.markdown("#### Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+        col1, col2, col3 = st.columns((1,3,1))
+
+        with col1:
+            st.write(' ')
+
+        with col2:
+            st.header("Inicio")
+
+            st.markdown(
+                "#### Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+            st.image("https://cdn.pixabay.com/photo/2014/08/27/12/58/emperor-penguins-429128_960_720.jpg")
+
+            st.markdown(
+                "#### Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+            st.image("https://cdn.pixabay.com/photo/2018/01/30/22/48/rainforest-3119822_960_720.jpg")
+
+            st.markdown(
+                "#### Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+            st.image("https://cdn.pixabay.com/photo/2012/03/03/23/54/animal-21668_960_720.jpg")
+
+            st.markdown(
+                "#### Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+            st.image("https://cdn.pixabay.com/photo/2019/08/12/20/33/giraffe-4402110_960_720.jpg")
+
+        with col3:
+            st.write(' ')
 
 
     def verHabitats(self, habitats):
-        if (len(habitats)< 1):
-            st.header("No hay habitats en el zoológico.")
-            return
 
-        st.header("Habitats del zoológico")
-        listaTiposHabitat = []
-        for x in range(0, len(habitats)):
-            listaTiposHabitat.append(habitats[x].getNombre())
-        index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaTiposHabitat)),
-                             format_func=lambda x: listaTiposHabitat[x])
+        col1, col2, col3 = st.columns([1, 3, 1])
 
-        st.subheader(habitats[index].getNombre())
+        with col1:
+            st.write(' ')
 
+        with col2:
+            if (len(habitats) < 1):
+                st.header("No hay habitats en el zoológico.")
+                return
 
+            st.header("Habitats del zoológico")
+            listaTiposHabitat = []
+            for x in range(0, len(habitats)):
+                listaTiposHabitat.append(habitats[x].getNombre())
+            index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaTiposHabitat)),
+                                 format_func=lambda x: listaTiposHabitat[x])
 
+            st.subheader(habitats[index].getNombre())
 
+        with col3:
+            st.write(' ')
 
     def configurarHabitats(self, habitats):
-        col1, col2 = st.columns([3, 1], gap="large")
+        col1, col2 = st.columns(2, gap="large")
         with col1:
             st.header("Configuración de habitats")
 
@@ -89,9 +126,11 @@ class ZooView:
                     pass
 
         with col2:
-            for x in range(0, len(habitats)):
-                st.markdown("### " + str(x + 1) + " " + habitats[x].getNombre())
-
+            if (len(habitats) < 1):
+                st.subheader("No hay animales en el zoológico")
+            else:
+                for x in range(0, len(habitats)):
+                    st.markdown("### " + str(x + 1) + " " + habitats[x].getNombre())
 
     def crearNuevoHabitat(self):
         seleccion = st.selectbox(
@@ -101,8 +140,15 @@ class ZooView:
         self.controller.agregarHabitat(seleccion)
         st.write(seleccion)
 
-
-
-
     def configurarAlimentos(self):
         st.header("Configuracion de alimentos")
+
+
+    def __desactivarLinksEnTitulos__(self):
+        st.markdown("""
+                                <style>
+                                .css-15zrgzn {display: none}
+                                .css-eczf16 {display: none}
+                                .css-jn99sy {display: none}
+                                </style>
+                                """, unsafe_allow_html=True)
