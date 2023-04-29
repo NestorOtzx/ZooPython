@@ -2,6 +2,8 @@ from Model.Habitats.Polar import Polar
 from Model.Habitats.Desertico import Desertico
 from Model.Habitats.Acuatico import Acuatico
 from Model.Habitats.Selvatico import Selvatico
+
+
 class ZooModel:
     __habitats__ = []
 
@@ -18,20 +20,19 @@ class ZooModel:
         if pagina == "Configurar alimentos":
             self.controller.mostarConfAlimentos()
 
-    def agregarHabitat(self, tipo):
-
+    def agregarHabitat(self, nombre, tipo, dieta, capacidad, temperatura):
 
         if tipo == 'Desértico':
-            habitat = Desertico(1)
+            habitat = Desertico(nombre, dieta, capacidad, temperatura)
 
-        if tipo == 'Selvático':
-            habitat = Selvatico(1)
+        elif tipo == 'Selvático':
+            habitat = Selvatico(nombre, dieta, capacidad, temperatura)
 
-        if tipo == 'Polar':
-            habitat = Polar(1)
-
-        if tipo == 'Acuático':
-            habitat = Acuatico(1)
+        elif tipo == 'Polar':
+            habitat = Polar(nombre, dieta, capacidad, temperatura)
+        else:
+            # Acuático
+            habitat = Acuatico(nombre, dieta, capacidad, temperatura)
 
         self.__habitats__.append(habitat)
 

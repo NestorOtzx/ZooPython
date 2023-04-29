@@ -2,6 +2,31 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 
+def mostrarHabitatsDisponibles(habitats):
+    if len(habitats) < 1:
+        st.subheader("No hay animales en el zoológico")
+    else:
+        st.divider()
+        for x in range(0, len(habitats)):
+            col1, col2, col3 = st.columns((2,3,2))
+
+            with col1:
+                st.image(habitats[x].getImagen())
+            with col2:
+                st.markdown("### " + habitats[x].getNombre())
+                st.markdown("Tipo: " + habitats[x].getTipo())
+                st.markdown("Dieta de los animales: " + str(habitats[x].getDieta()))
+
+            with col3:
+                st.markdown("### \
+                &nbsp;")
+
+                st.markdown("Capacidad máxima: " + str(habitats[x].getCapacidad()))
+                st.markdown("Temperatura media: " + str(habitats[x].getTemperatura()))
+            st.divider()
+
+
+
 class ZooView:
 
     mostrandoAgregar = False
@@ -99,11 +124,26 @@ class ZooView:
 
             if opcion == "Agregar Habitats":
                 with st.form(key="form"):
+                    #Nombre
+                    nombre = st.text_input('Nombre del habitat', 'Habitat')
+
+                    #Tipo
                     tipoHabitat = st.selectbox("Seleccione el tipo de habitat", ("Desértico", "Selvático", "Polar", "Acuático"))
+
+                    #Dieta
+                    tipoDieta = st.selectbox("Seleccione el tipo de dieta",
+                                               ("Herbívoro", "Carnívoro", "Omnívoro"))
+
+                    #Capacidad
+                    capacidad = st.slider('¿Cuantos animales podrán vivir en el habitat?', 1, 10, 1)
+
+                    #Temperatura
+                    temperatura = st.slider('¿Cual será la temperatura media en grados centígrados del habitat?', -30, 30, 0)
+
                     submit_button = st.form_submit_button(label="Agregar")
 
                 if submit_button:
-                    self.controller.agregarHabitat(tipoHabitat)
+                    self.controller.agregarHabitat(nombre, tipoHabitat, tipoDieta, capacidad, temperatura)
                 else:
                     pass
             elif opcion == "Eliminar Habitats":
@@ -126,11 +166,7 @@ class ZooView:
                     pass
 
         with col2:
-            if (len(habitats) < 1):
-                st.subheader("No hay animales en el zoológico")
-            else:
-                for x in range(0, len(habitats)):
-                    st.markdown("### " + str(x + 1) + " " + habitats[x].getNombre())
+            mostrarHabitatsDisponibles(habitats)
 
     def crearNuevoHabitat(self):
         seleccion = st.selectbox(

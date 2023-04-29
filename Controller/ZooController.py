@@ -27,8 +27,8 @@ class ZooController:
     def mostarConfAlimentos(self):
         self.view.configurarAlimentos()
 
-    def agregarHabitat(self, tipo):
-        self.model.agregarHabitat(tipo)
+    def agregarHabitat(self, nombre, tipo, dieta, capacidad, temperatura):
+        self.model.agregarHabitat(nombre, tipo, dieta, capacidad, temperatura)
 
     def eliminarHabitat(self, id):
         self.model.eliminarHabitat(id)
