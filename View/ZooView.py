@@ -4,7 +4,7 @@ from streamlit_option_menu import option_menu
 
 def mostrarHabitatsDisponibles(habitats):
     if len(habitats) < 1:
-        st.subheader("No hay animales en el zoológico")
+        st.subheader("No hay habitats en el zoológico")
     else:
         st.divider()
         for x in range(0, len(habitats)):
@@ -26,6 +26,22 @@ def mostrarHabitatsDisponibles(habitats):
             st.divider()
 
 
+def mostrarAnimalesDisponibles(animales):
+    if len(animales) < 1:
+        st.subheader("No hay animales en el zoológico")
+    else:
+        st.divider()
+        for x in range(0, len(animales)):
+            col1, col2 = st.columns((1, 3))
+
+            with col1:
+                st.image(animales[x].getImagen())
+            with col2:
+                st.markdown("### " + animales[x].getNombre())
+                st.markdown("Dieta del animal: " + str(animales[x].getDieta()))
+
+            st.divider()
+
 
 class ZooView:
 
@@ -39,20 +55,14 @@ class ZooView:
         self.configuracionDePagina()
         self.__desactivarLinksEnTitulos__()
 
-    def configuracionDePagina(self):
-        st.set_page_config(
-            page_title="Zoológico",
-            layout="wide",
-            menu_items={
-                "About": "https://github.com/NestorOtzx/ZooPython"
-            }
-        )
+
+
 
 
     def paginaPrincipal(self):
         with st.sidebar:
-            opcion = option_menu(menu_title="Panel de control", options=["Inicio", "Ver Habitats", "Configurar Habitats", "Configurar alimentos"],
-                                 icons=["border-all", "flower3", "gear", "egg-fill"], menu_icon="display")
+            opcion = option_menu(menu_title="Panel de control", options=["Inicio", "Ver Animales", "Configurar Animales", "Ver Habitats", "Configurar Habitats", "Configurar alimentos"],
+                                 icons=["border-all", "", "", "flower3", "gear", "basket-fill"], menu_icon="display")
         self.controller.seleccionarPagina(opcion)
 
     def inicio(self):
@@ -87,6 +97,75 @@ class ZooView:
 
         with col3:
             st.write(' ')
+            
+    def verAnimales(self, habitats):
+        col1, col2, col3 = st.columns([1, 3, 1])
+
+        with col1:
+            st.write(' ')
+
+        with col2:
+            if (len(habitats) < 1):
+                st.header("No hay animales en el zoológico.")
+                return
+
+            st.header("animales en el zoológico")
+            listaTiposHabitat = []
+            for x in range(0, len(habitats)):
+                listaTiposHabitat.append(habitats[x].getNombre())
+            index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaTiposHabitat)),
+                                 format_func=lambda x: listaTiposHabitat[x])
+
+            st.subheader(habitats[index].getNombre())
+
+        with col3:
+            st.write(' ')
+
+    def configurarAnimales(self, animales):
+        col1, col2 = st.columns(2, gap="large")
+        with col1:
+            st.header("Configuración de animales")
+
+            opcion = option_menu(menu_title="Configurar",
+                                 options=["Agregar animal", "Eliminar animal"],
+                                 menu_icon="gear")
+
+            if opcion == "Agregar animal":
+                with st.form(key="form"):
+                    #Nombre
+                    nombre = st.text_input('Nombre del animal', 'Nombre')
+
+                    #Dieta
+                    tipoDieta = st.selectbox("Seleccione el tipo de dieta",
+                                               ("Herbívoro", "Carnívoro", "Omnívoro"))
+
+                    submit_button = st.form_submit_button(label="Agregar")
+
+                if submit_button:
+                    self.controller.agregarAnimal(nombre, tipoDieta)
+                else:
+                    pass
+            elif opcion == "Eliminar animal":
+                with st.form(key="form"):
+                    listaAnimales = []
+                    for x in range(0, len(animales)):
+                        listaAnimales.append(animales[x].getNombre())
+
+                    # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
+                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaAnimales)), format_func=lambda x: listaAnimales[x])
+
+                    submit_button = st.form_submit_button(label="Eliminar")
+                if submit_button:
+                    self.controller.eliminarAnimal(index)
+
+                    # recargar la página para actualizar el selectbox
+                    st.experimental_rerun()
+                    pass
+                else:
+                    pass
+
+        with col2:
+            mostrarAnimalesDisponibles(animales)
 
 
     def verHabitats(self, habitats):
@@ -188,3 +267,12 @@ class ZooView:
                                 .css-jn99sy {display: none}
                                 </style>
                                 """, unsafe_allow_html=True)
+
+    def configuracionDePagina(self):
+        st.set_page_config(
+            page_title="Zoológico",
+            layout="wide",
+            menu_items={
+                "About": "https://github.com/NestorOtzx/ZooPython"
+            }
+        )
