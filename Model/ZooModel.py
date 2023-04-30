@@ -48,25 +48,25 @@ class ZooModel:
 
         self.__habitats__.append(habitat)
 
-    def agregarAnimal(self, nombre, especie, dieta):
+    def agregarAnimal(self, nombre, especie, dieta, edad = 0, estadoDeSalud = "Sano"):
         animal = None
 
         if especie == "Jirafa":
-            animal = Jirafa(nombre, dieta)
+            animal = Jirafa(nombre, dieta, edad, estadoDeSalud)
         if especie == "Oso polar":
-            animal = OsoPolar(nombre, dieta)
+            animal = OsoPolar(nombre, dieta, edad, estadoDeSalud)
         if especie == "Panda":
-            animal = Panda(nombre, dieta)
+            animal = Panda(nombre, dieta, edad, estadoDeSalud)
         if especie == "Pez payaso":
-            animal = PezPayaso(nombre, dieta)
+            animal = PezPayaso(nombre, dieta, edad, estadoDeSalud)
         if especie == "Pingüino":
-            animal = Pinguino(nombre, dieta)
+            animal = Pinguino(nombre, dieta, edad, estadoDeSalud)
         if especie == "Serpiente":
-            animal = Serpiente(nombre, dieta)
+            animal = Serpiente(nombre, dieta, edad, estadoDeSalud)
         if especie == "Tiburón":
-            animal = Tiburon(nombre, dieta)
+            animal = Tiburon(nombre, dieta, edad, estadoDeSalud)
         if especie == "Tigre":
-            animal = Tigre(nombre, dieta)
+            animal = Tigre(nombre, dieta, edad, estadoDeSalud)
 
         self.__animales__.append(animal)
 

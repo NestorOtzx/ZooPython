@@ -36,8 +36,8 @@ class ZooController:
     def agregarHabitat(self, nombre, tipo, dieta, capacidad, temperatura, listaExtras = {}):
         self.model.agregarHabitat(nombre, tipo, dieta, capacidad, temperatura, listaExtras)
 
-    def agregarAnimal(self, nombre, especie, dieta):
-        self.model.agregarAnimal(nombre, especie, dieta)
+    def agregarAnimal(self, nombre, especie, dieta, edad = 0, estadoDeSalud = "Sano"):
+        self.model.agregarAnimal(nombre, especie, dieta, edad, estadoDeSalud)
 
     def eliminarAnimal(self, id):
         self.model.eliminarAnimal(id)

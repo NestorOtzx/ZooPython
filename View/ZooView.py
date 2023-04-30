@@ -66,31 +66,51 @@ def mostrarHabitatsDisponibles(habitats):
 
 
 
-def mostrarAnimalesDisponibles(animales, habitats):
+def mostrarAnimalesDisponibles(animales, habitats, mostrarInteracciones = False):
     if len(animales) < 1:
         st.subheader("No hay animales en el zoológico")
     else:
         st.divider()
         for i in range(0, len(animales)):
-            col1, col2, col3 = st.columns((2, 2, 3))
+            col1, col2, col3, col4 = st.columns((3, 2,2, 3))
 
-            with col1:
-                st.image(animales[i].getImagen())
+            fotoDelAnimal = animales[i].getImagen()
 
-            with col3:
+            if mostrarInteracciones:
+                st.markdown("## Interactuar con animal")
+                accion = st.selectbox("¿Que debe hacer el animal?", ("Nada", "Comer", "Dormir", "Jugar"), key = "Accion"+str(i))
+                parametro = None
 
+                if accion == "Comer":
+                    pass
+                elif accion == "Dormir":
+                    parametro = st.slider("¿Cuantas horas debe dormir?", 1, 10)
+                elif accion == "Jugar":
+                    pass
+
+                if st.button("Ejecutar acción", key = "BotonAccion"+str(i)):
+                    try:
+                        animales[i].ejecutarAccion(accion, parametro)
+                        fotoDelAnimal = animales[i].getImagen(accion)
+                    except ValueError as e:
+                        st.error(e)
+                    except Exception as e:
+                        st.error(e)
+
+
+            with col4:
                 if len(habitats) > 0:
-                    st.markdown("### Habitats")
+                    st.markdown("### Configurar hábitat")
 
                     listaTiposHabitat = ["Ninguno"]
                     for j in range(0, len(habitats)):
                         listaTiposHabitat.append(habitats[j].getNombre())
 
-
                     nuevoHabitatIndex = st.selectbox("Asignar habitat", range(len(listaTiposHabitat)),
-                                                     format_func=lambda x: listaTiposHabitat[x], key = "selectHabitat"+str(i))
+                                                     format_func=lambda x: listaTiposHabitat[x],
+                                                     key="selectHabitat" + str(i))
 
-                    if st.button("Asignar nuevo habitat", key="AssHab"+str(i)):
+                    if st.button("Asignar nuevo habitat", key="AssHab" + str(i)):
 
                         if not animales[i].getHabitat() is None:
                             animales[i].getHabitat().eliminarAnimal(animales[i])
@@ -103,15 +123,28 @@ def mostrarAnimalesDisponibles(animales, habitats):
                             # asignando habitat nuevo
                             animales[i].setHabitat(habitats[nuevoHabitatIndex - 1])
                             habitats[nuevoHabitatIndex - 1].agregarAnimal(animales[i])
+            with col1:
+                st.image(fotoDelAnimal)
+
+            with col3:
+                st.markdown("### \
+                            &nbsp;")
+
+                st.markdown("Edad: " + str(animales[i].getEdad()) + " años")
+                st.markdown("Estado de salud: " + str(animales[i].getSalud()))
 
             with col2:
                 st.markdown("### " + animales[i].getNombre())
-                st.markdown("Especie del animal: "+str(animales[i].getEspecie()))
-                st.markdown("Dieta del animal: " + str(animales[i].getDieta()))
+                st.markdown("Especie: "+str(animales[i].getEspecie()))
+                st.markdown("Dieta: " + str(animales[i].getDieta()))
+
+
                 if animales[i].getHabitat() is None:
                     st.write("Habitat: Ninguno")
                 else:
                     st.write("Habitat: "+animales[i].getHabitat().getNombre())
+
+
 
 
             st.divider()
@@ -169,14 +202,14 @@ class ZooView:
             
     def verAnimales(self, animales):
         st.header("Animales del zoológico")
-        mostrarAnimalesDisponibles(animales, [])
+        mostrarAnimalesDisponibles(animales, [], True)
 
     def verHabitats(self, habitats):
         st.header("Habitats del zoológico")
         mostrarHabitatsDisponibles(habitats)
 
     def configurarAnimales(self, animales, habitats):
-        col1, col2 = st.columns(2, gap="large")
+        col1, col2 = st.columns((1,2), gap="large")
         with col1:
             st.header("Configuración de animales")
 
@@ -196,10 +229,15 @@ class ZooView:
                     tipoDieta = st.selectbox("Seleccione el tipo de dieta",
                                                ("Herbívoro", "Carnívoro", "Omnívoro"))
 
+                    edad = st.slider("Seleccione la edad del animal", 0, 15)
+
+                    estadoSalud = st.selectbox("Seleccione el estado de salud del animal", ("Sano", "Enfermo"))
+
+
                     submit_button = st.form_submit_button(label="Agregar")
 
                 if submit_button:
-                    self.controller.agregarAnimal(nombre, especie, tipoDieta)
+                    self.controller.agregarAnimal(nombre, especie, tipoDieta, edad, estadoSalud)
                 else:
                     pass
             elif opcion == "Eliminar animal":
