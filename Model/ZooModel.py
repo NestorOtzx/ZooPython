@@ -10,6 +10,7 @@ from Model.Animales.Pinguino import Pinguino
 from Model.Animales.Serpiente import Serpiente
 from Model.Animales.Tiburon import Tiburon
 from Model.Animales.Tigre import Tigre
+from Model.Alimento import Alimento
 
 class ZooModel:
     __habitats__ = []
@@ -23,15 +24,15 @@ class ZooModel:
         if pagina == "Inicio":
             self.controller.mostrarInicio()
         if pagina == "Ver Animales":
-            self.controller.mostrarAnimales(self.__animales__)
+            self.controller.mostrarAnimales(self.__animales__, self.__alimentos__)
         if pagina == "Configurar Animales":
             self.controller.mostrarConfAnimales(self.__animales__, self.__habitats__)
         if pagina == "Ver Habitats":
             self.controller.mostrarHabitats(self.__habitats__)
         if pagina == "Configurar Habitats":
             self.controller.mostrarConfHabitats(self.__habitats__)
-        if pagina == "Ver alimentos":
-            self.controller.mostrarAnimales(self.__animales__)
+        if pagina == "Ver Alimentos":
+            self.controller.mostrarAlimentos(self.__alimentos__)
         if pagina == "Configurar alimentos":
             self.controller.mostrarConfAlimentos(self.__alimentos__)
 
@@ -73,10 +74,11 @@ class ZooModel:
 
         self.__animales__.append(animal)
 
-    def agregarAlimento(self, alimento):
-        self.__alimentos__.append(alimento)
+    def agregarAlimento(self, nombre, tipo, cantidad, imagen):
+        self.__alimentos__.append(Alimento(nombre, tipo, cantidad, imagen))
 
     def eliminarAlimento(self, id):
+        self.__alimentos__[id].destroy()
         del self.__alimentos__[id]
 
     def eliminarHabitat(self, id):

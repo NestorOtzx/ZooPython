@@ -71,7 +71,8 @@ class Animal:
             else:
                 self.horasSuenio += int(parametro)
         if accion == "Comer":
-            pass
+            if not self.dieta == "Omnívoro" and self.dieta != parametro.getTipo():
+                raise Exception("El animal es "+self.dieta+ " y no puede comer alimentos del tipo "+parametro.getTipo())
 
 
 
@@ -116,6 +117,7 @@ class Animal:
 
     def getTemperatura(self):
         return self.rangoTemperatura
+
 
     def destroy(self):
         if not self.habitat is None:

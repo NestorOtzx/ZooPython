@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+from Utilidades import Utilidades
 
 class HabitatsView:
 
@@ -64,6 +65,11 @@ class HabitatsView:
 
     def configurarHabitats(self, habitats):
         col1, col2 = st.columns(2, gap="large")
+
+        listaNombresHabitat = []
+        for x in range(0, len(habitats)):
+            listaNombresHabitat.append(habitats[x].getNombre())
+
         with col1:
             st.header("Configuración de habitats")
 
@@ -97,17 +103,15 @@ class HabitatsView:
                     submit_button = st.form_submit_button(label="Agregar")
 
                 if submit_button:
-                    self.controller.agregarHabitat(nombre, tipoHabitat, tipoDieta, capacidad, temperatura, extras)
+                    self.controller.agregarHabitat(Utilidades.obtenerNombreRepetido(listaNombresHabitat, nombre), tipoHabitat, tipoDieta, capacidad, temperatura, extras)
                 else:
                     pass
             elif opcion == "Eliminar Habitats":
                 with st.form(key="form"):
-                    listaTiposHabitat = []
-                    for x in range(0, len(habitats)):
-                        listaTiposHabitat.append(habitats[x].getNombre())
+
 
                     # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
-                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaTiposHabitat)), format_func=lambda x: listaTiposHabitat[x])
+                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaNombresHabitat)), format_func=lambda x: listaNombresHabitat[x])
 
                     submit_button = st.form_submit_button(label="Eliminar")
                 if submit_button:

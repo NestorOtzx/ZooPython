@@ -1,16 +1,15 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-
-
+from Utilidades import Utilidades
 class AnimalesView:
     def __init__(self, controller):
         self.controller = controller
 
-    def verAnimales(self, animales):
+    def verAnimales(self, animales, alimentos):
         st.header("Animales del zoológico")
-        self.mostrarAnimalesDisponibles(animales, [], True)
+        self.mostrarAnimalesDisponibles(animales, [], True, alimentos)
 
-    def mostrarAnimalesDisponibles(self, animales, habitats, mostrarInteracciones = False):
+    def mostrarAnimalesDisponibles(self, animales, habitats, mostrarInteracciones = False, alimentos = []):
         if len(animales) < 1:
             st.subheader("No hay animales en el zoológico")
         else:
@@ -27,11 +26,20 @@ class AnimalesView:
                     parametro = None
 
                     if accion == "Comer":
-                        pass
+                        if len(alimentos) < 1:
+                            st.markdown("#### No hay alimentos disponibles")
+                        else:
+                            nombresAlimentos = []
+                            for x in range(0, len(alimentos)):
+                                nombresAlimentos.append(alimentos[x].getNombre())
+
+                            alimentosIndex = st.selectbox("¿Que alimento se le dará al animal?", range(len(nombresAlimentos)),
+                                                             format_func=lambda x: nombresAlimentos[x],
+                                                             key="alimento" + str(i))
+                            parametro = alimentos[alimentosIndex]
+
                     elif accion == "Dormir":
                         parametro = st.slider("¿Cuantas horas debe dormir?", 1, 10)
-                    elif accion == "Jugar":
-                        pass
 
                     if st.button("Ejecutar acción", key="BotonpyAccion" + str(i)):
                         try:
@@ -97,6 +105,11 @@ class AnimalesView:
 
     def configurarAnimales(self, animales, habitats):
         col1, col2 = st.columns((1,2), gap="large")
+
+        listaNombresAnimales = []
+        for x in range(0, len(animales)):
+            listaNombresAnimales.append(animales[x].getNombre())
+
         with col1:
             st.header("Configuración de animales")
 
@@ -121,17 +134,15 @@ class AnimalesView:
                     submit_button = st.form_submit_button(label="Agregar")
 
                 if submit_button:
-                    self.controller.agregarAnimal(nombre, especie, edad, estadoSalud)
+                    self.controller.agregarAnimal(Utilidades.obtenerNombreRepetido(listaNombresAnimales, nombre), especie, edad, estadoSalud)
                 else:
                     pass
             elif opcion == "Eliminar animal":
                 with st.form(key="form"):
-                    listaAnimales = []
-                    for x in range(0, len(animales)):
-                        listaAnimales.append(animales[x].getNombre())
+
 
                     # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
-                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaAnimales)), format_func=lambda x: listaAnimales[x])
+                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaNombresAnimales)), format_func=lambda x: listaNombresAnimales[x])
 
                     submit_button = st.form_submit_button(label="Eliminar")
                 if submit_button:
