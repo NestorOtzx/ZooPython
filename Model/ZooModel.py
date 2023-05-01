@@ -14,6 +14,7 @@ from Model.Animales.Tigre import Tigre
 class ZooModel:
     __habitats__ = []
     __animales__ = []
+    __alimentos__ = []
 
     def __init__(self, controller):
         self.controller = controller
@@ -29,8 +30,10 @@ class ZooModel:
             self.controller.mostrarHabitats(self.__habitats__)
         if pagina == "Configurar Habitats":
             self.controller.mostrarConfHabitats(self.__habitats__)
+        if pagina == "Ver alimentos":
+            self.controller.mostrarAnimales(self.__animales__)
         if pagina == "Configurar alimentos":
-            self.controller.mostrarConfAlimentos()
+            self.controller.mostrarConfAlimentos(self.__alimentos__)
 
     def agregarHabitat(self, nombre, tipo, dieta, capacidad, temperatura, extras = {}):
 
@@ -48,31 +51,39 @@ class ZooModel:
 
         self.__habitats__.append(habitat)
 
-    def agregarAnimal(self, nombre, especie, dieta, edad = 0, estadoDeSalud = "Sano"):
+    def agregarAnimal(self, nombre, especie, edad = 0, estadoDeSalud = "Sano"):
         animal = None
 
         if especie == "Jirafa":
-            animal = Jirafa(nombre, dieta, edad, estadoDeSalud)
+            animal = Jirafa(nombre, edad, estadoDeSalud)
         if especie == "Oso polar":
-            animal = OsoPolar(nombre, dieta, edad, estadoDeSalud)
+            animal = OsoPolar(nombre, edad, estadoDeSalud)
         if especie == "Panda":
-            animal = Panda(nombre, dieta, edad, estadoDeSalud)
+            animal = Panda(nombre, edad, estadoDeSalud)
         if especie == "Pez payaso":
-            animal = PezPayaso(nombre, dieta, edad, estadoDeSalud)
+            animal = PezPayaso(nombre, edad, estadoDeSalud)
         if especie == "Pingüino":
-            animal = Pinguino(nombre, dieta, edad, estadoDeSalud)
+            animal = Pinguino(nombre, edad, estadoDeSalud)
         if especie == "Serpiente":
-            animal = Serpiente(nombre, dieta, edad, estadoDeSalud)
+            animal = Serpiente(nombre, edad, estadoDeSalud)
         if especie == "Tiburón":
-            animal = Tiburon(nombre, dieta, edad, estadoDeSalud)
+            animal = Tiburon(nombre, edad, estadoDeSalud)
         if especie == "Tigre":
-            animal = Tigre(nombre, dieta, edad, estadoDeSalud)
+            animal = Tigre(nombre, edad, estadoDeSalud)
 
         self.__animales__.append(animal)
 
+    def agregarAlimento(self, alimento):
+        self.__alimentos__.append(alimento)
+
+    def eliminarAlimento(self, id):
+        del self.__alimentos__[id]
+
     def eliminarHabitat(self, id):
+        self.__habitats__[id].destroy()
         del self.__habitats__[id]
 
     def eliminarAnimal(self, id):
+        self.__animales__[id].destroy()
         del self.__animales__[id]
 

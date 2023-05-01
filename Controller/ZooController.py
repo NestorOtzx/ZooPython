@@ -30,14 +30,17 @@ class ZooController:
     def mostrarConfHabitats(self, habitats):
         self.view.configurarHabitats(habitats)
 
-    def mostrarConfAlimentos(self):
-        self.view.configurarAlimentos()
+    def mostrarAlimentos(self, alimentos):
+        self.view.mostrarAlimentos(alimentos)
+
+    def mostrarConfAlimentos(self, alimentos):
+        self.view.configurarAlimentos(alimentos)
 
     def agregarHabitat(self, nombre, tipo, dieta, capacidad, temperatura, listaExtras = {}):
         self.model.agregarHabitat(nombre, tipo, dieta, capacidad, temperatura, listaExtras)
 
-    def agregarAnimal(self, nombre, especie, dieta, edad = 0, estadoDeSalud = "Sano"):
-        self.model.agregarAnimal(nombre, especie, dieta, edad, estadoDeSalud)
+    def agregarAnimal(self, nombre, especie, edad = 0, estadoDeSalud = "Sano"):
+        self.model.agregarAnimal(nombre, especie, edad, estadoDeSalud)
 
     def eliminarAnimal(self, id):
         self.model.eliminarAnimal(id)

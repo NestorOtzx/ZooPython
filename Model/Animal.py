@@ -1,7 +1,7 @@
 
 class Animal:
     nombre = "Animal"
-    dieta = "Herbívoro"
+    dieta = "Omnívoro"
     especie = "Especie"
     edad = 0
     estadoDeSalud = "Sano"
@@ -12,11 +12,12 @@ class Animal:
 
     jugoEnElDia = False
 
+    habitatsHabitables = []
 
+    rangoTemperatura = (-100, 100)
 
-    def __init__(self, nombre, dieta, edad = 0, estadoSalud = "Sano"):
+    def __init__(self, nombre, edad = 0, estadoSalud = "Sano"):
         self.nombre = nombre
-        self.dieta = dieta
         self.estadoDeSalud = estadoSalud
         self.edad = edad
         self.habitat = None
@@ -29,6 +30,7 @@ class Animal:
         self.jugoEnElDia = False
 
         self.durmioSuficiente = False
+        self.habitatsHabitables = ["Acuático", "Desértico", "Polar", "Selvático"]
 
     def getNombre(self):
         return self.nombre
@@ -77,7 +79,34 @@ class Animal:
         return self.habitat
 
     def setHabitat(self, habitat):
-        self.habitat = habitat
+        # Comprobar habitat
+        if habitat is None:
+            self.habitat = None
+            return
+
+        if not habitat.getTipo() in self.habitatsHabitables:
+            raise Exception("La especie "+self.especie+ " no puede habitar en el habitat "+habitat.getTipo())
+
+        # Comprobar temperatura
+        if self.rangoTemperatura[0]> habitat.getTemperatura():
+            raise Exception("El animal "+self.especie+" no puede vivir en temperaturas inferiores a "+str(self.rangoTemperatura[0])+"°C")
+        if self.rangoTemperatura[1]< habitat.getTemperatura():
+            raise Exception("El animal "+self.especie+" no puede vivir en temperaturas superiores a "+str(self.rangoTemperatura[1])+"°C")
+
+
+        # Comprobar capacidad
+        if len(habitat.getAnimales()) >= habitat.getCapacidad():
+            raise Exception("No caben más animales en el zoológico")
+
+
+        # Comprobar dieta
+        if (habitat.getDieta() == "Omnívoro") or (habitat.getDieta() == self.dieta):
+            self.habitat = habitat
+        else:
+            raise Exception("La dieta del animal (" + self.dieta + ") no coincide con la dieta asignada al habitat (" + habitat.getDieta() + ")")
+
+
+
 
     def getSalud(self):
         return self.estadoDeSalud
@@ -85,6 +114,9 @@ class Animal:
     def getEdad(self):
         return self.edad
 
-    def __del__(self):
+    def getTemperatura(self):
+        return self.rangoTemperatura
+
+    def destroy(self):
         if not self.habitat is None:
             self.habitat.eliminarAnimal(self)

@@ -3,19 +3,12 @@ from streamlit_option_menu import option_menu
 
 
 def mostrarHabitatsDisponibles(habitats):
-    print("animales en cada habitat:")
-    for i in range(0, len(habitats)):
-        print("-"+habitats[i].getNombre()+"-")
-        print(habitats[i].getAnimales())
-
 
     if len(habitats) < 1:
         st.subheader("No hay habitats en el zoológico")
     else:
         st.divider()
-        print("---MOSTRAR HABITATS--")
         for x in range(0, len(habitats)):
-            print("Nueva iteracion "+str(x))
             col1, col2, col3 = st.columns((2,3,2))
 
             with col1:
@@ -35,13 +28,13 @@ def mostrarHabitatsDisponibles(habitats):
                 &nbsp;")
 
                 st.markdown("Capacidad máxima: " + str(habitats[x].getCapacidad()))
-                st.markdown("Temperatura media: " + str(habitats[x].getTemperatura()))
+                st.markdown("Temperatura media: " + str(habitats[x].getTemperatura())+"°C")
 
             animales = habitats[x].getAnimales()
 
-            cantidadAnimales=len(animales)
+            cantidadAnimales = len(animales)
             if len(animales) > 0:
-                st.markdown('#### Animales')
+                st.markdown('#### Animales '+str(cantidadAnimales)+"/"+str(habitats[x].getCapacidad()))
 
                 columnas = 8
                 cols = st.columns(columnas)
@@ -88,7 +81,7 @@ def mostrarAnimalesDisponibles(animales, habitats, mostrarInteracciones = False)
                 elif accion == "Jugar":
                     pass
 
-                if st.button("Ejecutar acción", key = "BotonAccion"+str(i)):
+                if st.button("Ejecutar acción", key = "BotonpyAccion"+str(i)):
                     try:
                         animales[i].ejecutarAccion(accion, parametro)
                         fotoDelAnimal = animales[i].getImagen(accion)
@@ -121,8 +114,12 @@ def mostrarAnimalesDisponibles(animales, habitats, mostrarInteracciones = False)
                             animales[i].setHabitat(None)
                         else:
                             # asignando habitat nuevo
-                            animales[i].setHabitat(habitats[nuevoHabitatIndex - 1])
-                            habitats[nuevoHabitatIndex - 1].agregarAnimal(animales[i])
+                            try:
+                                animales[i].setHabitat(habitats[nuevoHabitatIndex - 1])
+                                habitats[nuevoHabitatIndex - 1].agregarAnimal(animales[i])
+                            except Exception as e:
+                                st.error(e)
+
             with col1:
                 st.image(fotoDelAnimal)
 
@@ -132,6 +129,7 @@ def mostrarAnimalesDisponibles(animales, habitats, mostrarInteracciones = False)
 
                 st.markdown("Edad: " + str(animales[i].getEdad()) + " años")
                 st.markdown("Estado de salud: " + str(animales[i].getSalud()))
+                st.markdown("Temperatura habitable: entre "+str(animales[i].getTemperatura()[0])+" y "+str(animales[i].getTemperatura()[1])+" °C")
 
             with col2:
                 st.markdown("### " + animales[i].getNombre())
@@ -163,8 +161,8 @@ class ZooView:
 
     def paginaPrincipal(self):
         with st.sidebar:
-            opcion = option_menu(menu_title="Panel de control", options=["Inicio", "Ver Animales", "Configurar Animales", "Ver Habitats", "Configurar Habitats", "Configurar alimentos"],
-                                 icons=["border-all", "flower3", "gear", "flower3", "gear", "basket-fill"], menu_icon="display")
+            opcion = option_menu(menu_title="Panel de control", options=["Inicio", "Ver Animales", "Configurar Animales", "Ver Habitats", "Configurar Habitats", "Ver Alimentos", "Configurar alimentos"],
+                                 icons=["border-all", "egg-fill", "gear", "flower3", "gear", "basket-fill", "gear"], menu_icon="display")
         self.controller.seleccionarPagina(opcion)
 
     def inicio(self):
@@ -225,9 +223,6 @@ class ZooView:
                     # Especie de animal
                     especie = st.selectbox("Seleccione el tipo de habitat",
                                                ("Jirafa", "Oso polar", "Panda", "Pez payaso", "Pingüino", "Serpiente", "Tiburón", "Tigre"))
-                    # Dieta
-                    tipoDieta = st.selectbox("Seleccione el tipo de dieta",
-                                               ("Herbívoro", "Carnívoro", "Omnívoro"))
 
                     edad = st.slider("Seleccione la edad del animal", 0, 15)
 
@@ -237,7 +232,7 @@ class ZooView:
                     submit_button = st.form_submit_button(label="Agregar")
 
                 if submit_button:
-                    self.controller.agregarAnimal(nombre, especie, tipoDieta, edad, estadoSalud)
+                    self.controller.agregarAnimal(nombre, especie, edad, estadoSalud)
                 else:
                     pass
             elif opcion == "Eliminar animal":
@@ -275,7 +270,7 @@ class ZooView:
 
                 # Tipo
                 st.markdown("### Seleccione el tipo de habitat")
-                tipoHabitat = st.selectbox("", options = ("Desértico", "Selvático", "Polar", "Acuático"), label_visibility= "hidden")
+                tipoHabitat = st.selectbox("Tipo de hábitat", options = ("Desértico", "Selvático", "Polar", "Acuático"))
 
                 with st.form(key="form"):
                     #Nombre
@@ -289,7 +284,7 @@ class ZooView:
                     capacidad = st.slider('¿Cuantos animales podrán vivir en el habitat?', 1, 10, 1)
 
                     #Temperatura
-                    temperatura = st.slider('¿Cual será la temperatura media en grados centígrados del habitat?', -30, 30, 0)
+                    temperatura = st.slider('¿Cual será la temperatura media en °C del habitat?', -40, 40, 15)
 
                     # Caracteristicas extra
                     extras = self.caracteristicasEspecificas(tipoHabitat)
@@ -321,6 +316,61 @@ class ZooView:
         with col2:
             mostrarHabitatsDisponibles(habitats)
 
+    def mostrarAlimentos(self, alimentos):
+        pass
+
+    def configurarAlimentos(self, alimentos):
+
+        col1, col2 = st.columns(2, gap="large")
+        with col1:
+            st.header("Configuración de alimentos")
+
+            opcion = option_menu(menu_title="Configurar",
+                                 options=["Agregar alimentos", "Editar alimentos", "Eliminar alimentos"],
+                                 menu_icon="gear")
+
+            if opcion == "Agregar alimentos":
+
+                # Tipo
+                st.markdown("### Seleccione el tipo de alimento")
+                tipoHabitat = st.selectbox("Tipo de alimento", options=("Carnívoro", "Herbívoro"))
+
+                with st.form(key="form"):
+                    # Nombre
+                    nombre = st.text_input('Nombre del alimento', 'Habitat')
+
+                    # Dieta
+                    tipoDieta = st.selectbox("Seleccione el tipo de dieta",
+                                             ("Herbívoro", "Carnívoro", "Omnívoro"))
+
+
+                    submit_button = st.form_submit_button(label="Agregar")
+
+                if submit_button:
+                    pass
+                else:
+                    pass
+            elif opcion == "Editar alimentos":
+                pass
+            elif opcion == "Eliminar alimentos":
+                with st.form(key="form"):
+                    listaNombresAlimentos = []
+                    for x in range(0, len(alimentos)):
+                        listaNombresAlimentos.append(alimentos[x].getNombre())
+
+                    # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
+                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaNombresAlimentos)),
+                                         format_func=lambda x: listaNombresAlimentos[x])
+
+                    submit_button = st.form_submit_button(label="EliminarAlim")
+
+                if submit_button:
+                    #eliminar
+                    # recargar la página para actualizar el selectbox
+                    st.experimental_rerun()
+                    pass
+                else:
+                    pass
 
     def caracteristicasEspecificas(self, tipo):
         extras = {}
@@ -345,6 +395,8 @@ class ZooView:
 
         return extras
 
+
+
     def crearNuevoHabitat(self):
         seleccion = st.selectbox(
             '¿Qué tipo de habitat desea agregar?',
@@ -353,8 +405,7 @@ class ZooView:
         self.controller.agregarHabitat(seleccion)
         st.write(seleccion)
 
-    def configurarAlimentos(self):
-        st.header("Configuracion de alimentos")
+
 
 
     def __desactivarLinksEnTitulos__(self):

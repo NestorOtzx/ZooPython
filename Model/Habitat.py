@@ -1,5 +1,4 @@
 class Habitat:
-
     def __init__(self, nombre, dieta, capacidad, temperatura, extras = {}):
         self.nombre = nombre
         self.dieta = dieta
@@ -29,8 +28,6 @@ class Habitat:
         return self.temperatura
 
     def agregarAnimal(self, animal):
-        print("--HABITAT--")
-        print("Soy "+self.nombre+ " y me estan agregando al animal "+animal.getNombre())
         self.animales.append(animal)
 
     def eliminarAnimal(self, animal):
@@ -45,6 +42,6 @@ class Habitat:
 
 
 
-    def __del__(self):
+    def destroy(self):
         for x in range(0, len(self.animales)):
             self.animales[x].setHabitat(None)
