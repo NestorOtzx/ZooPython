@@ -1,40 +1,51 @@
 from View.ZooView import ZooView
+from View.HabitatsView import HabitatsView
+from View.AnimalesView import AnimalesView
+from View.AlimentosView import AlimentosView
+from View.InicioView import InicioView
+
+
 from Model.ZooModel import ZooModel
 
 
 class ZooController:
 
     def __init__(self):
-        self.view = ZooView(self)
+        self.zooView = ZooView(self)
+        self.habitatsView = HabitatsView(self)
+        self.animalesView = AnimalesView(self)
+        self.alimentosView = AlimentosView(self)
+        self.inicioView = InicioView(self)
+
         self.model = ZooModel(self)
         self.mostrarMenuPrincipal()
 
     def mostrarMenuPrincipal(self):
-        self.view.paginaPrincipal()
+        self.zooView.paginaPrincipal()
 
     def seleccionarPagina(self, pagina):
         self.model.seleccionarPagina(pagina)
 
     def mostrarInicio(self):
-        self.view.inicio()
+        self.inicioView.inicio()
 
     def mostrarAnimales(self, animales):
-        self.view.verAnimales(animales)
+        self.animalesView.verAnimales(animales)
 
     def mostrarConfAnimales(self, animales, habitats):
-        self.view.configurarAnimales(animales, habitats)
+        self.animalesView.configurarAnimales(animales, habitats)
 
     def mostrarHabitats(self, habitats):
-        self.view.verHabitats(habitats)
+        self.habitatsView.verHabitats(habitats)
 
     def mostrarConfHabitats(self, habitats):
-        self.view.configurarHabitats(habitats)
+        self.habitatsView.configurarHabitats(habitats)
 
     def mostrarAlimentos(self, alimentos):
-        self.view.mostrarAlimentos(alimentos)
+        self.alimentosView.mostrarAlimentos(alimentos)
 
     def mostrarConfAlimentos(self, alimentos):
-        self.view.configurarAlimentos(alimentos)
+        self.alimentosView.configurarAlimentos(alimentos)
 
     def agregarHabitat(self, nombre, tipo, dieta, capacidad, temperatura, listaExtras = {}):
         self.model.agregarHabitat(nombre, tipo, dieta, capacidad, temperatura, listaExtras)
