@@ -37,11 +37,12 @@ class Habitat:
     def getAnimales(self):
         return self.animales
 
+    # Retorna las características extras de este habitat especifico.
     def getPropiedadesExtra(self):
         return self.extras
 
 
-
+    #Función creada para solucionar errores provocados por la funcion __del__(self)
     def destroy(self):
         for x in range(0, len(self.animales)):
             self.animales[x].setHabitat(None)

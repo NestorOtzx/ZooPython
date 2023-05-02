@@ -6,6 +6,8 @@ class Alimento:
         self.nombre = nombre
         self.tipo = tipo
         self.cantidad = cantidad
+
+        # Icono generado de manera aleatoria que depende del tipo de alimento.
         self.imagen = imagen
 
     def getNombre(self):

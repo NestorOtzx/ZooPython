@@ -12,6 +12,7 @@ from Model.Animales.Tiburon import Tiburon
 from Model.Animales.Tigre import Tigre
 from Model.Alimento import Alimento
 
+
 class ZooModel:
     __habitats__ = []
     __animales__ = []
@@ -20,6 +21,7 @@ class ZooModel:
     def __init__(self, controller):
         self.controller = controller
 
+    # Selecciona lo que se mostrará pantalla
     def seleccionarPagina(self, pagina):
         if pagina == "Inicio":
             self.controller.mostrarInicio()

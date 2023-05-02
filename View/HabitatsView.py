@@ -11,6 +11,8 @@ class HabitatsView:
         st.header("Habitats del zoológico")
         self.mostrarHabitatsDisponibles(habitats)
 
+    # Recibe una lista de habitats que se encarga de mostrar,
+    # junto con las características de cada uno de ellos.
     def mostrarHabitatsDisponibles(self, habitats):
 
         if len(habitats) < 1:
@@ -63,6 +65,7 @@ class HabitatsView:
 
                 st.divider()
 
+    # Permite crear y eliminar habitats en el zoológico, cada tipo de habitat con sus respectivas características
     def configurarHabitats(self, habitats):
         col1, col2 = st.columns(2, gap="large")
 

@@ -1,5 +1,4 @@
 import random
-
 import streamlit as st
 from streamlit_option_menu import option_menu
 from Utilidades import Utilidades
@@ -8,6 +7,7 @@ class AlimentosView:
     def __init__(self, controller):
         self.controller = controller
 
+    # Muestra una lista dada de alimentos junto con sus características y un icono de referencia.
     def mostrarAlimentos(self, alimentos):
         if len(alimentos) < 1:
             st.subheader("No hay alimentos disponibles.")
@@ -25,6 +25,7 @@ class AlimentosView:
 
                 st.divider()
 
+    # Permite crear, editar y borrar alimentos.
     def configurarAlimentos(self, alimentos):
 
         col1, col2 = st.columns(2, gap="large")

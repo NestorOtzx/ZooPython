@@ -1,15 +1,24 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from Utilidades import Utilidades
+
+
 class AnimalesView:
     def __init__(self, controller):
         self.controller = controller
 
     def verAnimales(self, animales, alimentos):
         st.header("Animales del zoológico")
-        self.mostrarAnimalesDisponibles(animales, [], True, alimentos)
+        self.mostrarAnimalesDisponibles(animales, mostrarInteracciones= True, alimentos = alimentos)
 
-    def mostrarAnimalesDisponibles(self, animales, habitats, mostrarInteracciones = False, alimentos = []):
+    # Muestra una lista dada de animales
+    # En caso de proporcionar habitats,
+    # se mostrarán los habitats disponibles en el zoológico para asignárselos al animal.
+    # En caso de que mostrarInteracciones sea verdadero,
+    # se mostrarán las acciones que el animal puede realizar
+    # En caso de proporcionar alimentos
+    # Al ejecutar la acción "Comer" se mostrarán las opciones de alimento que el animal puede consumir.
+    def mostrarAnimalesDisponibles(self, animales, habitats = [], mostrarInteracciones = False, alimentos = []):
         if len(animales) < 1:
             st.subheader("No hay animales en el zoológico")
         else:
@@ -103,6 +112,8 @@ class AnimalesView:
 
                 st.divider()
 
+    # Permite crear y borrar animales en el zoológico, además de crearlos,
+    # también se les puede asignar un nuevo habitat una vez agregados al zoológico
     def configurarAnimales(self, animales, habitats):
         col1, col2 = st.columns((1,2), gap="large")
 
@@ -126,7 +137,7 @@ class AnimalesView:
                     especie = st.selectbox("Seleccione el tipo de habitat",
                                                ("Jirafa", "Oso polar", "Panda", "Pez payaso", "Pingüino", "Serpiente", "Tiburón", "Tigre"))
 
-                    edad = st.slider("Seleccione la edad del animal", 0, 15)
+                    edad = st.slider("Seleccione la edad del animal", 0, 50)
 
                     estadoSalud = st.selectbox("Seleccione el estado de salud del animal", ("Sano", "Enfermo"))
 

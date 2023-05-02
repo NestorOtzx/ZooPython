@@ -3,7 +3,9 @@ class Animal:
     nombre = "Animal"
     dieta = "Omnívoro"
     especie = "Especie"
+
     edad = 0
+
     estadoDeSalud = "Sano"
     habitat = None
 
@@ -16,12 +18,14 @@ class Animal:
 
     rangoTemperatura = (-100, 100)
 
+
     def __init__(self, nombre, edad = 0, estadoSalud = "Sano"):
         self.nombre = nombre
         self.estadoDeSalud = estadoSalud
         self.edad = edad
         self.habitat = None
 
+        # Fotos de cada acción ejecutable por el animal
         self.fotoNormal = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
         self.fotoComiendo = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
         self.fotoJugando = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -30,6 +34,8 @@ class Animal:
         self.jugoEnElDia = False
 
         self.durmioSuficiente = False
+
+        # Lista de habitats en los que el animal puede vivir, por defecto, puede vivir en todos.
         self.habitatsHabitables = ["Acuático", "Desértico", "Polar", "Selvático"]
 
     def getNombre(self):
@@ -52,12 +58,14 @@ class Animal:
         if accion == "Comer":
             foto = self.fotoComiendo
 
-        #arrojar excepcion
+        # En caso de que el animal no contenga ninguna foto para la acción requerida,
+        # se asume que el animal no puede realizar dicha acción.
         if foto == "":
             raise ValueError("El "+ self.especie+" no puede "+accion)
 
         return foto
 
+    # Comprueba si la acción es posible de realizar por el animal, si no, arroja una excepción.
     def ejecutarAccion(self, accion, parametro = None):
         if accion == "Jugar":
             if self.jugoEnElDia:
@@ -79,6 +87,7 @@ class Animal:
     def getHabitat(self):
         return self.habitat
 
+    # Comprueba si el animal puede habitar en el hábitat dado, si no, arroja una excepción.
     def setHabitat(self, habitat):
         # Comprobar habitat
         if habitat is None:
@@ -118,7 +127,7 @@ class Animal:
     def getTemperatura(self):
         return self.rangoTemperatura
 
-
+    # Función creada para solucionar errores provocados por la funcion __del__(self)
     def destroy(self):
         if not self.habitat is None:
             self.habitat.eliminarAnimal(self)
