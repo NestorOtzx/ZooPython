@@ -1,4 +1,8 @@
 class Habitat:
+
+    animales = []
+
+
     def __init__(self, nombre, dieta, capacidad, temperatura, extras = {}):
         self.nombre = nombre
         self.dieta = dieta
@@ -6,7 +10,10 @@ class Habitat:
         self.temperatura = temperatura
         self.animales = []
         self.extras = extras
-        imagen = "https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg"
+
+        # Valores por defecto
+        self.imagen = "https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg"
+        self.tipo = "Desértico"
 
 
     def getImagen(self):

@@ -22,5 +22,14 @@ class Alimento:
     def getImagen(self):
         return self.imagen
 
+    def reducirCantidad(self):
+        self.cantidad -= 1
+
+    def editarAlimento(self, nombre = "", tipo = "", cantidad = -1, imagen = ""):
+        self.nombre = nombre
+        self.tipo = tipo
+        self.cantidad = cantidad
+        self.imagen = imagen
+
     def destroy(self):
-        pass
+        del self

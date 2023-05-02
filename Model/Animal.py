@@ -79,8 +79,12 @@ class Animal:
             else:
                 self.horasSuenio += int(parametro)
         if accion == "Comer":
+            if parametro.getCantidad() <= 0:
+                raise Exception("No hay más de este tipo de alimento")
             if not self.dieta == "Omnívoro" and self.dieta != parametro.getTipo():
                 raise Exception("El animal es "+self.dieta+ " y no puede comer alimentos del tipo "+parametro.getTipo())
+            else:
+                parametro.reducirCantidad()
 
 
 

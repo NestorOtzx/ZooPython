@@ -3,6 +3,13 @@ from streamlit_option_menu import option_menu
 from Utilidades import Utilidades
 
 class HabitatsView:
+    # Características de habitats
+    MAX_CACTUS = 10
+    MAX_HUMEDAD = 25
+    MAX_LIANAS = 20
+    MAX_ROCAS = 25
+    MAX_PROFUNDIDAD = 10
+    MAX_CORALES = 10
 
     def __init__(self, controller):
         self.controller = controller
@@ -130,23 +137,26 @@ class HabitatsView:
 
     def caracteristicasEspecificas(self, tipo):
         extras = {}
+
+
+
         if tipo == 'Desértico':
-            extras["Cantidad de cactus"] = st.slider("¿Cuantos cactus tendrá el habitat?", 0, 10)
+            extras["Cantidad de cactus"] = st.slider("¿Cuantos cactus tendrá el habitat?", 0, self.MAX_CACTUS)
             hayVegetacion = st.checkbox("¿Hay vegetación en el habitat?")
             extras["Hay vegetación"] = "Si" if hayVegetacion == True else "No"
 
         elif tipo == 'Selvático':
-            extras["Nivel de humedad"] = st.slider("¿Que nivel de humedad tiene el habitat?", 0, 25)
-            extras["Cantidad de lianas"] = st.slider("¿Cuantas lianas tendrá el habitat?", 0, 20)
+            extras["Nivel de humedad"] = st.slider("¿Que nivel de humedad tiene el habitat?", 0, self.MAX_HUMEDAD)
+            extras["Cantidad de lianas"] = st.slider("¿Cuantas lianas tendrá el habitat?", 0, self.MAX_LIANAS)
 
         elif tipo == 'Polar':
-            extras["Nivel de humedad"] = st.slider("¿Que nivel de humedad tiene el habitat?", 0, 25)
+            extras["Cantidad de rocas"] = st.slider("¿Cuantas rocas tendrá el habitat?", 0, self.MAX_ROCAS)
             hayEstanques = st.checkbox("¿Hay estanques en el habitat?")
             extras["Hay estanques"] = "Si" if hayEstanques == True else "No"
 
         else:
             # Acuático
-            extras["Metros de profundidad"] = st.slider("¿Cuantos metros de profundidad tiene el acuario?", 0, 10)
-            extras["Cantidad de corales"] = st.slider("¿Cuantas corales tiene el acuario?", 0, 10)
+            extras["Metros de profundidad"] = st.slider("¿Cuantos metros de profundidad tiene el acuario?", 0, self.MAX_PROFUNDIDAD)
+            extras["Cantidad de corales"] = st.slider("¿Cuantas corales tiene el acuario?", 0, self.MAX_CORALES)
 
         return extras

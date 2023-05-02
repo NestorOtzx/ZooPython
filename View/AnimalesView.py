@@ -4,6 +4,9 @@ from Utilidades import Utilidades
 
 
 class AnimalesView:
+    MAX_HORAS_DORMIR = 10
+    MAX_EDAD_ANIMAL = 50
+
     def __init__(self, controller):
         self.controller = controller
 
@@ -45,10 +48,14 @@ class AnimalesView:
                             alimentosIndex = st.selectbox("¿Que alimento se le dará al animal?", range(len(nombresAlimentos)),
                                                              format_func=lambda x: nombresAlimentos[x],
                                                              key="alimento" + str(i))
+
+                            st.markdown("#### Cantidad de alimento "+ str(alimentos[alimentosIndex].getCantidad()))
+
                             parametro = alimentos[alimentosIndex]
 
+
                     elif accion == "Dormir":
-                        parametro = st.slider("¿Cuantas horas debe dormir?", 1, 10)
+                        parametro = st.slider("¿Cuantas horas debe dormir?", 1, self.MAX_HORAS_DORMIR)
 
                     if st.button("Ejecutar acción", key="BotonpyAccion" + str(i)):
                         try:
@@ -58,6 +65,10 @@ class AnimalesView:
                             st.error(e)
                         except Exception as e:
                             st.error(e)
+
+                        # Si no hay error
+                        else:
+                            st.experimental_rerun()
 
                 with col4:
                     if len(habitats) > 0:
@@ -137,7 +148,7 @@ class AnimalesView:
                     especie = st.selectbox("Seleccione el tipo de habitat",
                                                ("Jirafa", "Oso polar", "Panda", "Pez payaso", "Pingüino", "Serpiente", "Tiburón", "Tigre"))
 
-                    edad = st.slider("Seleccione la edad del animal", 0, 50)
+                    edad = st.slider("Seleccione la edad del animal", 0, self.MAX_EDAD_ANIMAL)
 
                     estadoSalud = st.selectbox("Seleccione el estado de salud del animal", ("Sano", "Enfermo"))
 
