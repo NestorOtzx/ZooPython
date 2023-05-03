@@ -15,7 +15,7 @@ class HabitatsView:
         self.controller = controller
 
     def verHabitats(self, habitats):
-        st.header("Habitats del zoológico")
+        st.header("Hábitats del zoológico")
         self.mostrarHabitatsDisponibles(habitats)
 
     # Recibe una lista de habitats que se encarga de mostrar,
@@ -23,7 +23,7 @@ class HabitatsView:
     def mostrarHabitatsDisponibles(self, habitats):
 
         if len(habitats) < 1:
-            st.subheader("No hay habitats en el zoológico")
+            st.subheader("No hay hábitats en el zoológico")
         else:
             st.divider()
             for x in range(0, len(habitats)):
@@ -81,21 +81,21 @@ class HabitatsView:
             listaNombresHabitat.append(habitats[x].getNombre())
 
         with col1:
-            st.header("Configuración de habitats")
+            st.header("Configuración de hábitats")
 
             opcion = option_menu(menu_title="Configurar",
-                                 options=["Agregar Habitats", "Eliminar Habitats"],
+                                 options=["Agregar Hábitats", "Eliminar Hábitats"],
                                  menu_icon="gear")
 
-            if opcion == "Agregar Habitats":
+            if opcion == "Agregar Hábitats":
 
                 # Tipo
-                st.markdown("### Seleccione el tipo de habitat")
+                st.markdown("### Seleccione el tipo de hábitat")
                 tipoHabitat = st.selectbox("Tipo de hábitat", options = ("Desértico", "Selvático", "Polar", "Acuático"))
 
                 with st.form(key="form"):
                     #Nombre
-                    nombre = st.text_input('Nombre del habitat', 'Habitat')
+                    nombre = st.text_input('Nombre del habitat', 'Hábitat')
 
                     #Dieta
                     tipoDieta = st.selectbox("Seleccione el tipo de dieta",
@@ -116,12 +116,12 @@ class HabitatsView:
                     self.controller.agregarHabitat(Utilidades.obtenerNombreRepetido(listaNombresHabitat, nombre), tipoHabitat, tipoDieta, capacidad, temperatura, extras)
                 else:
                     pass
-            elif opcion == "Eliminar Habitats":
+            elif opcion == "Eliminar Hábitats":
                 with st.form(key="form"):
 
 
                     # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
-                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaNombresHabitat)), format_func=lambda x: listaNombresHabitat[x])
+                    index = st.selectbox("Seleccione el hábitat a eliminar", range(len(listaNombresHabitat)), format_func=lambda x: listaNombresHabitat[x])
 
                     submit_button = st.form_submit_button(label="Eliminar")
                 if submit_button:
@@ -138,20 +138,18 @@ class HabitatsView:
     def caracteristicasEspecificas(self, tipo):
         extras = {}
 
-
-
         if tipo == 'Desértico':
-            extras["Cantidad de cactus"] = st.slider("¿Cuantos cactus tendrá el habitat?", 0, self.MAX_CACTUS)
-            hayVegetacion = st.checkbox("¿Hay vegetación en el habitat?")
+            extras["Cantidad de cactus"] = st.slider("¿Cuántos cactus tendrá el hábitat?", 0, self.MAX_CACTUS)
+            hayVegetacion = st.checkbox("¿Hay vegetación en el hábitat?")
             extras["Hay vegetación"] = "Si" if hayVegetacion == True else "No"
 
         elif tipo == 'Selvático':
-            extras["Nivel de humedad"] = st.slider("¿Que nivel de humedad tiene el habitat?", 0, self.MAX_HUMEDAD)
-            extras["Cantidad de lianas"] = st.slider("¿Cuantas lianas tendrá el habitat?", 0, self.MAX_LIANAS)
+            extras["Nivel de humedad"] = st.slider("¿Que nivel de humedad tiene el hábitat?", 0, self.MAX_HUMEDAD)
+            extras["Cantidad de lianas"] = st.slider("¿Cuantas lianas tendrá el hábitat?", 0, self.MAX_LIANAS)
 
         elif tipo == 'Polar':
-            extras["Cantidad de rocas"] = st.slider("¿Cuantas rocas tendrá el habitat?", 0, self.MAX_ROCAS)
-            hayEstanques = st.checkbox("¿Hay estanques en el habitat?")
+            extras["Cantidad de rocas"] = st.slider("¿Cuantas rocas tendrá el hábitat?", 0, self.MAX_ROCAS)
+            hayEstanques = st.checkbox("¿Hay estanques en el hábitat?")
             extras["Hay estanques"] = "Si" if hayEstanques == True else "No"
 
         else:

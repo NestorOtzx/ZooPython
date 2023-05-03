@@ -111,7 +111,7 @@ class AlimentosView:
 
 
                         # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
-                        index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaNombresAlimentos)),
+                        index = st.selectbox("Seleccione el alimento a eliminar", range(len(listaNombresAlimentos)),
                                              format_func=lambda x: listaNombresAlimentos[x])
 
                         submit_button = st.form_submit_button(label="EliminarAlim")

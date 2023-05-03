@@ -78,11 +78,11 @@ class AnimalesView:
                         for j in range(0, len(habitats)):
                             listaTiposHabitat.append(habitats[j].getNombre())
 
-                        nuevoHabitatIndex = st.selectbox("Asignar habitat", range(len(listaTiposHabitat)),
+                        nuevoHabitatIndex = st.selectbox("Asignar hábitat", range(len(listaTiposHabitat)),
                                                          format_func=lambda x: listaTiposHabitat[x],
                                                          key="selectHabitat" + str(i))
 
-                        if st.button("Asignar nuevo habitat", key="AssHab" + str(i)):
+                        if st.button("Asignar nuevo hábitat", key="AssHab" + str(i)):
 
                             if not animales[i].getHabitat() is None:
                                 animales[i].getHabitat().eliminarAnimal(animales[i])
@@ -117,9 +117,9 @@ class AnimalesView:
                     st.markdown("Dieta: " + str(animales[i].getDieta()))
 
                     if animales[i].getHabitat() is None:
-                        st.write("Habitat: Ninguno")
+                        st.write("Hábitat: Ninguno")
                     else:
-                        st.write("Habitat: " + animales[i].getHabitat().getNombre())
+                        st.write("Hábitat: " + animales[i].getHabitat().getNombre())
 
                 st.divider()
 
@@ -145,7 +145,7 @@ class AnimalesView:
                     nombre = st.text_input('Nombre del animal', 'Nombre')
 
                     # Especie de animal
-                    especie = st.selectbox("Seleccione el tipo de habitat",
+                    especie = st.selectbox("Seleccione el tipo de animal",
                                                ("Jirafa", "Oso polar", "Panda", "Pez payaso", "Pingüino", "Serpiente", "Tiburón", "Tigre"))
 
                     edad = st.slider("Seleccione la edad del animal", 0, self.MAX_EDAD_ANIMAL)
@@ -164,7 +164,7 @@ class AnimalesView:
 
 
                     # OBTENER EL INDEX DEL ELEMENTO A ELIMINAR
-                    index = st.selectbox("Seleccione el habitat a eliminar", range(len(listaNombresAnimales)), format_func=lambda x: listaNombresAnimales[x])
+                    index = st.selectbox("Seleccione el animal a eliminar", range(len(listaNombresAnimales)), format_func=lambda x: listaNombresAnimales[x])
 
                     submit_button = st.form_submit_button(label="Eliminar")
                 if submit_button:
