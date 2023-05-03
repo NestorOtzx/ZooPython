@@ -1,5 +1,6 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
+import requests
+
 
 
 class InicioView:
@@ -8,6 +9,8 @@ class InicioView:
 
     def inicio(self):
 
+
+
         col1, col2, col3 = st.columns((1,3,1))
 
         with col1:
@@ -15,6 +18,19 @@ class InicioView:
 
         with col2:
             st.header("Inicio")
+
+            url = "https://swapi.dev/api/people/1/"
+
+            llamado = requests.get(url)
+
+            if llamado.status_code == 200:
+                datos = llamado.json()
+
+                for llave, valor in datos.items():
+                    st.write(valor)
+            else:
+                st.error("Error: "+str(llamado.status_code))
+                pass
 
             st.markdown(
                 "#### Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")

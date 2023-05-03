@@ -4,11 +4,14 @@ class Habitat:
 
 
     def __init__(self, nombre, dieta, capacidad, temperatura, extras = {}):
+        self.animales = []
+
+
+
         self.nombre = nombre
         self.dieta = dieta
         self.capacidad = capacidad
         self.temperatura = temperatura
-        self.animales = []
         self.extras = extras
 
         # Valores por defecto

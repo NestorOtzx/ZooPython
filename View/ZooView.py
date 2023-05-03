@@ -31,7 +31,7 @@ class ZooView:
             page_title="Zoológico",
             layout="wide",
             menu_items={
-                'About': "Panel de control de zoológico que permite editar distintos aspectos del mismo, Hecho por Nestor Ortiz, GitHub: https://github.com/NestorOtzx/ZooPython",
+                'About': "Panel de control de zoológico que permite editar distintos aspectos del mismo, Hecho por Nestor Ortiz, GitHub: https://github.com/NestorOtzx/ZooPython"
             },
             page_icon="https://cdn.pixabay.com/photo/2017/07/20/07/05/giraffe-2521453_960_720.png"
         )
