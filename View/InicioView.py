@@ -8,9 +8,6 @@ class InicioView:
         self.controller = controller
 
     def inicio(self):
-
-
-
         col1, col2, col3 = st.columns((1,5,1))
 
         with col1:
@@ -33,7 +30,6 @@ class InicioView:
             for nombre, foto in animales.items():
                 datos = self.getDatos(nombre)
                 self.mostrarAnimal(foto, datos)
-
         with col3:
             st.write(' ')
 
@@ -46,7 +42,9 @@ class InicioView:
             for key, val in datos.items():
                 st.markdown("**"+key + "**: " + val)
         st.divider()
-    # Obtiene datos curiosos de una api de animales
+
+
+    # Obtiene datos curiosos de un animal especifico en una API
     def getDatos(self, animal):
         api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(animal)
         response = requests.get(api_url, headers={'X-Api-Key': 'paY1BtYA/zM/Ct/3GtOGOA==A6zb4QkNADxPrNxf'})
