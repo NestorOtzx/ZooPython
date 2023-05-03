@@ -37,6 +37,13 @@ Para ejecutar el proyecto, debes ejecutar el siguiente comando en la carpeta ra�
 
 ## Cada opción de la página
 
+### Inicio
+    
+Desde esta sección se podrá ver información importante sobre los animales que pueden habitar el zoológico, esta información es obtenida mediante una API de datos de animales.
+
+![img_4.png](img_4.png)
+
+
 ### Configurar animales
 
 Esta opción permite tanto agregar animales con las características que el usuario desee, como eliminar los animales que ya existen en el zoológico.
